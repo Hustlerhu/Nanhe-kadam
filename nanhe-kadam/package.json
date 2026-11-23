@@ -1,0 +1,22 @@
+{
+  "name": "nanhe-kadam",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "assets": "node scripts/embed.mjs",
+    "dev": "npm run assets && wrangler dev --local --ip 0.0.0.0",
+    "deploy": "npm run assets && wrangler deploy",
+    "typecheck": "npm run assets && tsc --noEmit",
+    "test": "npm run typecheck && node --test tests/*.test.mjs"
+  },
+  "dependencies": {
+    "hono": "^4.7.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250320.0",
+    "esbuild": "^0.28.2",
+    "typescript": "^5.7.3",
+    "wrangler": "^4.0.0"
+  }
+}

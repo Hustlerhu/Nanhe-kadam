@@ -1,0 +1,7 @@
+node_modules/
+.wrangler/
+.dev.vars
+.env*
+INITIAL_ADMIN_CREDENTIALS.txt
+nanhe-kadam-backup-*.sql
+backend/src/assets.ts

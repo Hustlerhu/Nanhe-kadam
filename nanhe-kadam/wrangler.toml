@@ -1,0 +1,12 @@
+name = "nanhe-kadam"
+main = "backend/src/index.ts"
+compatibility_date = "2025-03-01"
+account_id = "704b3a3e3931d2adb78faec76525e2fa"
+
+[vars]
+BASE_URL = "https://nanhe-kadam.empathy-life-jelly.workers.dev"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "nanhe-kadam-db"
+database_id = "40010739-626b-4441-87bd-ffcf2331c67a"

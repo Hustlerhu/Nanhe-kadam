@@ -1,0 +1,10 @@
+import {test} from 'node:test';import assert from 'node:assert/strict';import {readFileSync} from 'node:fs';
+test('single Worker and D1 configuration without R2',()=>{const w=readFileSync('wrangler.toml','utf8');assert.match(w,/main\s*=\s*"backend\/src\/index.ts"/);assert.match(w,/\[\[d1_databases\]\]/);assert.doesNotMatch(w,/r2_buckets/i)});
+test('teacher-dependent tables declare cascading foreign keys',()=>{const sql=readFileSync('migrations/0001_reset.sql','utf8');for(const t of ['teacher_salaries','teacher_assignments','teacher_attendance'])assert.match(sql,new RegExp(`CREATE TABLE ${t}[^;]*REFERENCES teachers\\(id\\) ON DELETE CASCADE`))});
+test('bundled frontend has no remote dependencies',()=>{const html=readFileSync('frontend/index.html','utf8');assert.doesNotMatch(html,/(src|href)="https?:/)});
+
+test('all required artwork is embedded into the Worker',()=>{const bundle=readFileSync('backend/src/assets.ts','utf8');for(const name of ['hero','logo','about','class1','class2','class3','class4','class5','class6','class7','class8','class9']){assert.ok(bundle.includes(`public/${name}.jpg`),name);assert.ok(readFileSync(`public/${name}.jpg`).length>1000,name)}});
+test('public and portal frontend source contains no raw emoji',()=>{for(const file of ['frontend/public.js','frontend/portal.js','frontend/login.js'])assert.doesNotMatch(readFileSync(file,'utf8'),/\p{Extended_Pictographic}/u,file)});
+
+test('public template is server hydrated, without a loading shell',()=>{const h=readFileSync('frontend/index.html','utf8');assert.match(h,/<!--NK_SERVER_HTML-->/);assert.match(h,/<!--NK_DATA-->/);assert.doesNotMatch(h,/Loading little dreams/i)});
+test('current seed uses the requested school and nine classes',()=>{const sql=readFileSync('migrations/0001_reset.sql','utf8');assert.match(sql,/Nanhe Kadam Public School/);for(const name of ['Play Class','Nursery','LKG','UKG','Class 1','Class 2','Class 3','Class 4','Class 5'])assert.ok(sql.includes(`('${name}',`),name);assert.doesNotMatch(sql,/Mera Nanhe Kadam|Class B/)});
